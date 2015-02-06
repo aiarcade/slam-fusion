@@ -13,7 +13,8 @@
 #include <png++/png.hpp>
 #include <QPixmap>
 #include <QRgb>
-
+#include <QImageWriter>
+#include <QDebug>
 class Odometry : public QObject
 {
     Q_OBJECT

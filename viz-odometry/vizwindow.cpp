@@ -15,16 +15,9 @@ VizWindow::VizWindow(QWidget *parent) :
 
 
         ui->setupUi(this);
-        OdometryEngine odEngine;
-        odEngine.start();
-        QImage * left=odEngine.getLeftImage();
-        qDebug() << left->width();
-        qDebug() << left->height();
-        QImageWriter writer("/home/mahesh/test.jpg");
-        if(!writer.write(*left))
-        {
-            qDebug() << writer.errorString();
-        }
+        odEngine=new OdometryEngine();
+        odEngine->start();
+
         for (int i = 0; i < 1; ++i) {
             for (int j = 0; j < 1; ++j) {
                 QColor clearColor;
@@ -33,6 +26,8 @@ VizWindow::VizWindow(QWidget *parent) :
                                   255, 63);
 
                 glWidgets[i][j] = new GLWidget(0, 0);
+                QImage * left=odEngine->getLeftImage();
+                glWidgets[i][j]->updateTexture(left);
                 glWidgets[i][j]->setClearColor(clearColor);
                 glWidgets[i][j]->rotateBy(+42 * 16, +42 * 16, -21 * 16);
                 ui->mainLayout->addWidget(glWidgets[i][j], i, j);
@@ -46,9 +41,18 @@ VizWindow::VizWindow(QWidget *parent) :
 
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(rotateOneStep()));
-        timer->start(20);
+        timer->start(100);
 
         setWindowTitle(tr("Textures"));
+
+
+//        //qDebug() << left->width();
+//        qDebug() << left->height();
+//        QImageWriter writer("/home/mahesh/testew.jpg");
+//        if(!writer.write(*left))
+//        {
+//            qDebug() << writer.errorString();
+//        }
 
 }
 
@@ -66,4 +70,9 @@ void VizWindow::rotateOneStep()
 {
     if (currentGlWidget)
         currentGlWidget->rotateBy(+2 * 16, +2 * 16, -1 * 16);
+    leftImage=odEngine->getLeftImage();
+    qDebug() << leftImage->width();
+    glWidgets[0][0]->updateTexture(leftImage);
+    glWidgets[0][0]->updateGL();
+
 }

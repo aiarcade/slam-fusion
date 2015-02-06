@@ -108,5 +108,7 @@ void Odometry::findOdometry()
 
 QImage  *Odometry::getOrgLeftImage()
 {
+
+
     return &(leftImage);
 }

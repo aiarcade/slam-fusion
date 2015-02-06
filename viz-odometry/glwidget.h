@@ -1,8 +1,10 @@
 #ifndef GLWIDGET_H
  #define GLWIDGET_H
 
- #include <QtGui>
- #include <QGLWidget>
+#include <QtGui>
+#include <QGLWidget>
+#include <QImage>
+#include <QDebug>
 
  class QGLShaderProgram;
 
@@ -18,6 +20,7 @@
      QSize sizeHint() const;
      void rotateBy(int xAngle, int yAngle, int zAngle);
      void setClearColor(const QColor &color);
+     void updateTexture(QImage *);
 
  signals:
      void clicked();
@@ -32,6 +35,8 @@
 
  private:
      void makeObject();
+     int leftImageWidth;
+     int leftImageHeight;
 
      QColor clearColor;
      QPoint lastPos;

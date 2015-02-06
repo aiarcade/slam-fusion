@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "glwidget.h"
 #include "odometryengine.h"
+#include <QImage>
 namespace Ui {
 class VizWindow;
 }
@@ -22,7 +23,9 @@ private:
 
         GLWidget *glWidgets[NumRows][NumColumns];
         GLWidget *currentGlWidget;
-   OdometryEngine odEngine;
+   OdometryEngine *odEngine;
+   QImage *leftImage;
+
 private slots:
     void setCurrentGlWidget();
     void rotateOneStep();
