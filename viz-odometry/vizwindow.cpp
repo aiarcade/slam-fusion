@@ -15,44 +15,35 @@ VizWindow::VizWindow(QWidget *parent) :
 
 
         ui->setupUi(this);
+        plot=new QwtPlot ();
+        plot->enableAxis(QwtPlot::xBottom, true);
+        plot->enableAxis(QwtPlot::yLeft, true);
+        plot->setAxisScale( QwtPlot::xBottom, -200.0, 200.0 );
+        plot->setAxisScale( QwtPlot::yLeft, -200.0, 200.0 );
+        plot->setTitle("MAP");
+       plot->setStyleSheet("background-color:white;");
+        plot->setFixedSize(900,280);
+        QwtPlotLayout *layout=plot->plotLayout();
+        layout->setAlignCanvasToScales(true);
+
         odEngine=new OdometryEngine();
         odEngine->start();
+        camglWidget= new GLWidget(0, 0);
+        plotglWidget= new GLPlotWidget(0, 0);
+       // plot=new PlotWidget();
+        QImage * left=odEngine->getLeftImage();
+        camglWidget->updateTexture(left);
+        //plotglWidget->updatePlot(left);
 
-        for (int i = 0; i < 1; ++i) {
-            for (int j = 0; j < 1; ++j) {
-                QColor clearColor;
-                clearColor.setHsv(((i * NumColumns) + j) * 255
-                                  / (NumRows * NumColumns - 1),
-                                  255, 63);
-
-                glWidgets[i][j] = new GLWidget(0, 0);
-                QImage * left=odEngine->getLeftImage();
-                glWidgets[i][j]->updateTexture(left);
-                glWidgets[i][j]->setClearColor(clearColor);
-                glWidgets[i][j]->rotateBy(+42 * 16, +42 * 16, -21 * 16);
-                ui->mainLayout->addWidget(glWidgets[i][j], i, j);
-
-                connect(glWidgets[i][j], SIGNAL(clicked()),
-                        this, SLOT(setCurrentGlWidget()));
-            }
-        }
-
-        currentGlWidget = glWidgets[0][0];
-
+        ui->camLayout->addWidget(camglWidget);
+        ui->plotLayout->addWidget(plot);
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(rotateOneStep()));
         timer->start(100);
 
-        setWindowTitle(tr("Textures"));
+        setWindowTitle(tr("VSLAM"));
 
 
-//        //qDebug() << left->width();
-//        qDebug() << left->height();
-//        QImageWriter writer("/home/mahesh/testew.jpg");
-//        if(!writer.write(*left))
-//        {
-//            qDebug() << writer.errorString();
-//        }
 
 }
 
@@ -63,16 +54,44 @@ VizWindow::~VizWindow()
 
 void VizWindow::setCurrentGlWidget()
 {
-    currentGlWidget = qobject_cast<GLWidget *>(sender());
+
 }
 
 void VizWindow::rotateOneStep()
 {
-    if (currentGlWidget)
-        currentGlWidget->rotateBy(+2 * 16, +2 * 16, -1 * 16);
     leftImage=odEngine->getLeftImage();
-    qDebug() << leftImage->width();
-    glWidgets[0][0]->updateTexture(leftImage);
-    glWidgets[0][0]->updateGL();
+    pos=odEngine->getPosition();
+    camglWidget->updateTexture(leftImage);
+    plotglWidget->updatePlot(pos);
+   plotglWidget->updateGL();
+   camglWidget->updateGL();
+   positionPlot(pos);
+
 
 }
+
+void VizWindow::positionPlot(Matrix *pos)
+{
+
+     plot_x.push_back(pos->val[0][3]);
+    plot_y.push_back(pos->val[2][3]);
+    qDebug()<<pos->val[0][3]<<pos->val[2][3];
+    QwtPlotGrid *grid = new QwtPlotGrid();
+    grid->setPen(QPen(Qt::gray, 0.0, Qt::DotLine));
+    grid->enableX(true);
+    grid->enableXMin(true);
+    grid->enableY(true);
+    grid->enableYMin(false);
+    grid->attach(  plot );
+
+    QwtPlotCurve *curve = new QwtPlotCurve();
+    curve->setPen( QColor( Qt::green ) );
+    curve->setSamples( plot_x.data(), plot_y.data(), (int) plot_x.size());
+    curve->attach(plot);
+    curve->show();
+    plot->replot();
+    count=count+1;
+
+}
+
+

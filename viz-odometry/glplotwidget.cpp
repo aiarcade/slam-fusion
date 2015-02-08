@@ -1,35 +1,35 @@
 #include <QtGui>
 #include <QtOpenGL>
 
-#include "glwidget.h"
+#include "glplotwidget.h"
 
-GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
+GLPlotWidget::GLPlotWidget(QWidget *parent, QGLWidget *shareWidget)
     : QGLWidget(parent, shareWidget)
 {
     clearColor = Qt::black;
     xRot = 0;
     yRot = 0;
     zRot = 0;
-#ifdef QT_OPENGL_ES_2
-    program = 0;
-#endif
+    currentPos = Matrix::eye(4);
+    prevPos=Matrix::eye(4);
+
 }
 
-GLWidget::~GLWidget()
+GLPlotWidget::~GLPlotWidget()
 {
 }
 
-QSize GLWidget::minimumSizeHint() const
+QSize GLPlotWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-QSize GLWidget::sizeHint() const
+QSize GLPlotWidget::sizeHint() const
 {
     return QSize(200, 200);
 }
 
-void GLWidget::rotateBy(int xAngle, int yAngle, int zAngle)
+void GLPlotWidget::rotateBy(int xAngle, int yAngle, int zAngle)
 {
     xRot += xAngle;
     yRot += yAngle;
@@ -37,35 +37,23 @@ void GLWidget::rotateBy(int xAngle, int yAngle, int zAngle)
     updateGL();
 }
 
-void GLWidget::setClearColor(const QColor &color)
+void GLPlotWidget::setClearColor(const QColor &color)
 {
     clearColor = color;
     updateGL();
 }
 
-void GLWidget::updateTexture(QImage *image)
+void GLPlotWidget::updatePlot(Matrix *newPos)
 {
 
-    static const int coords[6][4][3] = {
-        { { +1, -1, -1 }, { -1, -1, -1 }, { -1, +1, -1 }, { +1, +1, -1 } },
+    prevPos=currentPos;
+    currentPos=*newPos;
 
-    };
-
-    textures[0] = bindTexture
-            (*image, GL_TEXTURE_2D);
-
-     for (int j = 0; j < 4; ++j) {
-            texCoords.append
-                (QVector2D(j == 0 || j == 3, j == 0 || j == 1));
-            vertices.append
-                (QVector3D(1* coords[0][j][0], 1 * coords[0][j][1],
-                           1 * coords[0][j][2]));
-        }
 
 
 }
 
-void GLWidget::initializeGL()
+void GLPlotWidget::initializeGL()
 {
 
     glEnable(GL_DEPTH_TEST);
@@ -115,10 +103,10 @@ void GLWidget::initializeGL()
 #endif
 }
 
-void GLWidget::paintGL()
+void GLPlotWidget::paintGL()
 {
-    qglClearColor(clearColor);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+       //qglClearColor(clearColor);
+       glClear(  GL_DEPTH_BUFFER_BIT);
 
 
         glLoadIdentity();
@@ -126,12 +114,7 @@ void GLWidget::paintGL()
         glRotatef(0 / 16.0f, 1.0f, 0.0f, 0.0f);
         glRotatef(0 / 16.0f, 0.0f, 1.0f, 0.0f);
         glRotatef(0 / 16.0f, 0.0f, 0.0f, 1.0f);
-        glVertexPointer(3, GL_FLOAT, 0, vertices.constData());
-        glTexCoordPointer(2, GL_FLOAT, 0, texCoords.constData());
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-        glBindTexture(GL_TEXTURE_2D, textures[0]);
 
 //        glBegin(GL_QUADS);
 
@@ -148,15 +131,23 @@ void GLWidget::paintGL()
 //        glVertex2i(0, 512);
 
 //        glEnd();
-        glBindTexture(GL_TEXTURE_2D, textures[0]);
-        glDrawArrays(GL_TRIANGLE_FAN,0, 4);
-        glBegin(GL_LINES);
-            glVertex2f(.25,0.25);
-            glVertex2f(.75,.75);
-        glEnd();
+
+
+            qDebug()<<currentPos.val[0][3]<<currentPos.val[2][3];
+             qDebug()<<prevPos.val[0][3]<<prevPos.val[2][3];
+             glColor3f(1.0f,1.0f,1.0f);
+            glBegin(GL_LINES);
+                glVertex2f(0,0);
+                glVertex2f(currentPos.val[0][3],currentPos.val[2][3]);
+            glEnd();
+//            glBegin(GL_LINES);
+//                glVertex2f(0,0);
+//                glVertex2f(60,60);
+//            glEnd();
+
 }
 
-void GLWidget::resizeGL(int width, int height)
+void GLPlotWidget::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
        glViewport(0,0,width,height);
@@ -176,12 +167,12 @@ void GLWidget::resizeGL(int width, int height)
 
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
+void GLPlotWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
+void GLPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
@@ -194,12 +185,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     lastPos = event->pos();
 }
 
-void GLWidget::mouseReleaseEvent(QMouseEvent * /* event */)
+void GLPlotWidget::mouseReleaseEvent(QMouseEvent * /* event */)
 {
     emit clicked();
 }
 
-void GLWidget::makeObject()
+void GLPlotWidget::makeObject()
 {
     static const int coords[6][4][3] = {
         { { +1, -1, -1 }, { -1, -1, -1 }, { -1, +1, -1 }, { +1, +1, -1 } },

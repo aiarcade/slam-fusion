@@ -22,9 +22,11 @@ public:
     explicit Odometry(QObject *parent = 0);
     void findOdometry();
     QImage *getOrgLeftImage();
+    Matrix *getPosition();
 private:
     QImage leftImage;
     QImage rightImage;
+     Matrix pose ;
     
 signals:
     

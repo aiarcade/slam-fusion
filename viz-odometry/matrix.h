@@ -128,6 +128,7 @@ private:
   void releaseMemory ();
   inline FLOAT pythag(FLOAT a,FLOAT b);
 
+
 };
 
 #endif // MATRIX_H

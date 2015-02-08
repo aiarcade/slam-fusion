@@ -11,7 +11,7 @@ Odometry::Odometry(QObject *parent) :
 void Odometry::findOdometry()
 {
 
-    std::string dir = "/home/mahesh/dev/vslam/libviso2/2010_03_09_drive_0019";
+    std::string dir = "/data/dev/slam/2010_03_09_drive_0019";
 
       // set most important visual odometry parameters
       // for a full parameter list, look at: viso_stereo.h
@@ -28,7 +28,7 @@ void Odometry::findOdometry()
 
       // current pose (this matrix transforms a point from the current
       // frame's camera coordinates to the first frame's camera coordinates)
-      Matrix pose = Matrix::eye(4);
+     pose = Matrix::eye(4);
 
       // loop through all frames i=0:372
       for (int32_t i=0; i<373; i++) {
@@ -84,9 +84,9 @@ void Odometry::findOdometry()
             // output some statistics
             double num_matches = viso.getNumberOfMatches();
             double num_inliers = viso.getNumberOfInliers();
-            std::cout << ", Matches: " << num_matches;
-            std::cout << ", Inliers: " << 100.0*num_inliers/num_matches << " %" << ", Current pose: " << std::endl;
-            std::cout << pose << std::endl << std::endl;
+            //std::cout << ", Matches: " << num_matches;
+            //std::cout << ", Inliers: " << 100.0*num_inliers/num_matches << " %" << ", Current pose: " << std::endl;
+            //std::cout << pose << std::endl << std::endl;
 
           } else {
             std::cout << " ... failed!" << std::endl;
@@ -111,4 +111,9 @@ QImage  *Odometry::getOrgLeftImage()
 
 
     return &(leftImage);
+}
+
+Matrix * Odometry::getPosition()
+{
+    return &pose;
 }

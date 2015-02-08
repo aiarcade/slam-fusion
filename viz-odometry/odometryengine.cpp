@@ -18,3 +18,8 @@ void OdometryEngine::run()
      stOdo->findOdometry();
 
 }
+Matrix * OdometryEngine::getPosition()
+{
+     return stOdo->getPosition();
+
+}

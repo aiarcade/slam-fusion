@@ -6,7 +6,8 @@
 
 QT       += core gui widgets opengl
 
-
+INCLUDEPATH +=/usr/include/qwt/
+LIBS += -lqwt
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = viz-odometry
@@ -25,7 +26,9 @@ SOURCES += main.cpp\
     matcher.cpp \
     filter.cpp \
     odometry.cpp \
-    odometryengine.cpp
+    odometryengine.cpp \
+    glplotwidget.cpp \
+    plotwidget.cpp
 
 HEADERS  += vizwindow.h \
     glwidget.h \
@@ -39,6 +42,8 @@ HEADERS  += vizwindow.h \
     matcher.h \
     filter.h \
     odometry.h \
-    odometryengine.h
+    odometryengine.h \
+    glplotwidget.h \
+    plotwidget.h
 
 FORMS    += vizwindow.ui
