@@ -11,7 +11,7 @@ Odometry::Odometry(QObject *parent) :
 void Odometry::findOdometry()
 {
 
-    std::string dir = "/data/dev/slam/2010_03_09_drive_0019";
+    std::string dir = "/home/mahesh/dev/vslam/libviso2/2010_03_09_drive_0019";
 
       // set most important visual odometry parameters
       // for a full parameter list, look at: viso_stereo.h
@@ -72,7 +72,7 @@ void Odometry::findOdometry()
 
 
           // status
-          std::cout << "Processing: Frame: " << i;
+         // std::cout << "Processing: Frame: " << i;
 
           // compute visual odometry
           int32_t dims[] = {width,height,width};

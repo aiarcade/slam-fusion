@@ -39,7 +39,7 @@ VizWindow::VizWindow(QWidget *parent) :
         ui->plotLayout->addWidget(plot);
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(rotateOneStep()));
-        timer->start(100);
+        timer->start(10);
 
         setWindowTitle(tr("VSLAM"));
 
@@ -75,7 +75,7 @@ void VizWindow::positionPlot(Matrix *pos)
 
      plot_x.push_back(pos->val[0][3]);
     plot_y.push_back(pos->val[2][3]);
-    qDebug()<<pos->val[0][3]<<pos->val[2][3];
+   // qDebug()<<pos->val[0][3]<<pos->val[2][3];
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen(QPen(Qt::gray, 0.0, Qt::DotLine));
     grid->enableX(true);
@@ -85,7 +85,7 @@ void VizWindow::positionPlot(Matrix *pos)
     grid->attach(  plot );
 
     QwtPlotCurve *curve = new QwtPlotCurve();
-    curve->setPen( QColor( Qt::green ) );
+    curve->setPen(QPen(QColor( Qt::red ),4) );
     curve->setSamples( plot_x.data(), plot_y.data(), (int) plot_x.size());
     curve->attach(plot);
     curve->show();
