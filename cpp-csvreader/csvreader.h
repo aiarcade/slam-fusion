@@ -16,7 +16,7 @@ class CSVReader
 {
 public:
     CSVReader();
-    void readFile(string name,string delimiters);
+    void readFile(string name,string delimiters,int read_head);
     vector<string> getHead();
     void split(const string& text, const string& separators,vector <string>& words);
     vector<string> next();

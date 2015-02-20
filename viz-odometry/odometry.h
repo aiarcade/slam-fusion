@@ -23,10 +23,12 @@ public:
     void findOdometry();
     QImage *getOrgLeftImage();
     Matrix *getPosition();
+    void setDataPath(std::string);
 private:
     QImage leftImage;
     QImage rightImage;
-     Matrix pose ;
+    Matrix pose ;
+    std::string data_set_path;
     
 signals:
     

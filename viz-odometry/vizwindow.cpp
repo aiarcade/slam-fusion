@@ -21,12 +21,17 @@ VizWindow::VizWindow(QWidget *parent) :
         plot->setAxisScale( QwtPlot::xBottom, -200.0, 200.0 );
         plot->setAxisScale( QwtPlot::yLeft, -200.0, 200.0 );
         plot->setTitle("MAP");
-       plot->setStyleSheet("background-color:white;");
+        plot->setStyleSheet("background-color:white;");
         plot->setFixedSize(900,280);
         QwtPlotLayout *layout=plot->plotLayout();
         layout->setAlignCanvasToScales(true);
 
+        data_set_path="/home/mahesh/dev/vslam/libviso2/2010_03_09_drive_0019";
+        std::string gt_file=data_set_path+"/insdata.txt";
+        std::string delimters=" ";
+        gtReader.readFile(gt_file,delimters,0);
         odEngine=new OdometryEngine();
+        odEngine->setDataPath(data_set_path);
         odEngine->start();
         camglWidget= new GLWidget(0, 0);
         plotglWidget= new GLPlotWidget(0, 0);
@@ -91,7 +96,17 @@ void VizWindow::positionPlot(Matrix *pos)
     curve->show();
     plot->replot();
     count=count+1;
+    std::vector <std::string> gt=gtReader.next();
+    if(gt.empty()) qDebug()<<"Empty data";
+    qDebug()<<QString::fromStdString(gt[0])<<QString::fromStdString(gt[1]);
 
+
+
+}
+
+void VizWindow::setDataPath(std::string path)
+{
+    data_set_path=path;
 }
 
 

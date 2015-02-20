@@ -11,7 +11,7 @@ Odometry::Odometry(QObject *parent) :
 void Odometry::findOdometry()
 {
 
-    std::string dir = "/home/mahesh/dev/vslam/libviso2/2010_03_09_drive_0019";
+    std::string dir = data_set_path;
 
       // set most important visual odometry parameters
       // for a full parameter list, look at: viso_stereo.h
@@ -116,4 +116,9 @@ QImage  *Odometry::getOrgLeftImage()
 Matrix * Odometry::getPosition()
 {
     return &pose;
+}
+
+void Odometry::setDataPath(std::string path)
+{
+    data_set_path=path;
 }

@@ -4,15 +4,16 @@ CSVReader::CSVReader()
 {
 }
 
-void CSVReader::readFile(string fname,string sep_chars)
+void CSVReader::readFile(string fname,string sep_chars,int read_head)
 {
    inputFile.open(fname.c_str(),ios_base::in);
    delimiters=sep_chars;
    //Get the header
-   string line;
-   getline(inputFile,line);
-   split (line,delimiters,head);
-
+   if(read_head==1){
+    string line;
+    getline(inputFile,line);
+    split (line,delimiters,head);
+   }
 //   vector<string>path;
 //   const string sepr=",";
 //

@@ -12,10 +12,12 @@ public:
     OdometryEngine();
     QImage *getLeftImage();
     Matrix *getPosition();
+    void setDataPath(std::string);
 private:
    Odometry *stOdo;
    QImage leftImage;
    Matrix *pose;
+   std::string data_set_path;
    void run();
 
 

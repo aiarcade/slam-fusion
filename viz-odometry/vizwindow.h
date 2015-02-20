@@ -7,6 +7,7 @@
 #include "odometryengine.h"
 #include "matrix.h"
 #include "plotwidget.h"
+#include "csvreader.h"
 #include <QImage>
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_marker.h>
@@ -23,6 +24,7 @@ public:
     explicit VizWindow(QWidget *parent = 0);
     ~VizWindow();
     void positionPlot(Matrix *);
+    void setDataPath(std::string);
     
 private:
     Ui::VizWindow *ui;
@@ -37,7 +39,8 @@ private:
         double count;
         std::vector<double> plot_x;
         std::vector<double> plot_y;
-
+        CSVReader gtReader;
+        std::string data_set_path;
 private slots:
     void setCurrentGlWidget();
     void rotateOneStep();

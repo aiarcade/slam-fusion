@@ -23,3 +23,8 @@ Matrix * OdometryEngine::getPosition()
      return stOdo->getPosition();
 
 }
+
+void OdometryEngine::setDataPath(std::string path)
+{
+    stOdo->setDataPath(path);
+}
