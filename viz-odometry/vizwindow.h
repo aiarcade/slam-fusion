@@ -39,6 +39,8 @@ private:
         double count;
         std::vector<double> plot_x;
         std::vector<double> plot_y;
+        std::vector<double> gt_x;
+        std::vector<double> gt_y;
         CSVReader gtReader;
         std::string data_set_path;
 private slots:
