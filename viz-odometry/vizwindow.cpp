@@ -79,7 +79,7 @@ void VizWindow::positionPlot(Matrix *pos)
 {
 
      plot_x.push_back(pos->val[0][3]);
-     plot_y.push_back(pos->val[2][3]);
+     plot_y.push_back(pos->val[1][3]);
    // qDebug()<<pos->val[0][3]<<pos->val[2][3];
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen(QPen(Qt::gray, 0.0, Qt::DotLine));
@@ -96,7 +96,7 @@ void VizWindow::positionPlot(Matrix *pos)
     curve->show();
 
     count=count+1;
-    std::vector <std::string> gt=gtReader.next();
+    /*std::vector <std::string> gt=gtReader.next();
     if(gt.empty()) qDebug()<<"Empty data";
     double x = (QString::fromStdString(gt[4])).toDouble()+5200;
     double y = (QString::fromStdString(gt[5])).toDouble()+1000;
@@ -109,7 +109,7 @@ void VizWindow::positionPlot(Matrix *pos)
     gt_curve->setPen(QPen(QColor( Qt::green),4) );
     gt_curve->setSamples( gt_x.data(), gt_y.data(), (int) gt_x.size());
     gt_curve->attach(plot);
-    gt_curve->show();
+    gt_curve->show();*/
 
 
     plot->replot();

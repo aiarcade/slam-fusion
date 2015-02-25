@@ -14,11 +14,6 @@ void CSVReader::readFile(string fname,string sep_chars,int read_head)
     getline(inputFile,line);
     split (line,delimiters,head);
    }
-//   vector<string>path;
-//   const string sepr=",";
-//
-//   for( std::vector<string>::const_iterator i = path.begin(); i != path.end(); ++i)
-//       std::cout << *i << '!';
 
 }
 

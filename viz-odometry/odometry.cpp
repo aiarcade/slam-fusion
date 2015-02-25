@@ -4,6 +4,11 @@
 Odometry::Odometry(QObject *parent) :
     QObject(parent)
 {
+    pWriter.openFile("/home/mahesh/out/predicted.csv"," ",1);
+    std::vector<string> pHead;
+    pHead.push_back("x");
+    pHead.push_back("y");
+    pWriter.writeHead(pHead);
 
 
 }
@@ -91,7 +96,10 @@ void Odometry::findOdometry()
           } else {
             std::cout << " ... failed!" << std::endl;
           }
-
+          std::vector<FLOAT> pos_data;
+          pos_data.push_back(pose.val[0][3]);
+          pos_data.push_back(pose.val[1][3]);
+          pWriter.writeLine(pos_data);
           // release uint8_t buffers
           free(left_img_data);
           free(right_img_data);
@@ -102,7 +110,7 @@ void Odometry::findOdometry()
           return ;
         }
       }
-
+    pWriter.closeFile();
 
 }
 

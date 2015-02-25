@@ -8,6 +8,7 @@ QT       += core gui widgets opengl
 
 INCLUDEPATH +=/usr/include/qwt/
 INCLUDEPATH +=../cpp-csvreader/
+INCLUDEPATH +=../cpp-csvwriter/
 LIBS += -lqwt
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,7 +31,8 @@ SOURCES += main.cpp\
     odometryengine.cpp \
     glplotwidget.cpp \
     plotwidget.cpp \
-    ../cpp-csvreader/csvreader.cpp
+    ../cpp-csvreader/csvreader.cpp \
+    ../cpp-csvwriter/csvwriter.cpp
 
 HEADERS  += vizwindow.h \
     glwidget.h \
@@ -47,6 +49,7 @@ HEADERS  += vizwindow.h \
     odometryengine.h \
     glplotwidget.h \
     plotwidget.h \
-    ../cpp-csvreader/csvreader.h
+    ../cpp-csvreader/csvreader.h \
+    ../cpp-csvwriter/csvwriter.h
 
 FORMS    += vizwindow.ui

@@ -4,10 +4,12 @@
 #include <QObject>
 #include "viso_stereo.h"
 #include "matrix.h"
+#include <csvwriter.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <stdint.h>
+#include <sstream>
 
 #include <viso_stereo.h>
 #include <png++/png.hpp>
@@ -15,6 +17,7 @@
 #include <QRgb>
 #include <QImageWriter>
 #include <QDebug>
+
 class Odometry : public QObject
 {
     Q_OBJECT
@@ -29,6 +32,7 @@ private:
     QImage rightImage;
     Matrix pose ;
     std::string data_set_path;
+    CSVWriter pWriter;
     
 signals:
     
