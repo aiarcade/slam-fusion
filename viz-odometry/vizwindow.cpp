@@ -8,6 +8,7 @@
 #include "vizwindow.h"
 #include "ui_vizwindow.h"
 
+
 VizWindow::VizWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::VizWindow)
@@ -64,12 +65,12 @@ void VizWindow::setCurrentGlWidget()
 
 void VizWindow::rotateOneStep()
 {
-    leftImage=odEngine->getLeftImage();
+   // leftImage=odEngine->getLeftImage();
     pos=odEngine->getPosition();
-    camglWidget->updateTexture(leftImage);
+    //camglWidget->updateTexture(leftImage);
     plotglWidget->updatePlot(pos);
    plotglWidget->updateGL();
-   camglWidget->updateGL();
+  // camglWidget->updateGL();
    positionPlot(pos);
 
 
@@ -79,7 +80,7 @@ void VizWindow::positionPlot(Matrix *pos)
 {
 
      plot_x.push_back(pos->val[0][3]);
-     plot_y.push_back(pos->val[1][3]);
+     plot_y.push_back(pos->val[2][3]);
    // qDebug()<<pos->val[0][3]<<pos->val[2][3];
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->setPen(QPen(Qt::gray, 0.0, Qt::DotLine));
