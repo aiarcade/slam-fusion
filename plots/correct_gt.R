@@ -7,7 +7,7 @@
 # 
 # 4,8,12
 
-gt_data=read.csv("/home//mahesh/out//gs.txt",sep=" ",header=FALSE)
+gt_data=read.csv("/home//mahesh/out/gs.txt",sep=" ",header=FALSE)
 p_data=read.csv("/home//mahesh/out/predicted.csv",sep=" ",header=FALSE)
 
 new_gt=data.frame(p_data[,1:3],gt_data$V5,p_data[,5:7],gt_data$V6,p_data[,9:11],gt_data$V7)
