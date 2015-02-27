@@ -46,21 +46,13 @@ void GLWidget::setClearColor(const QColor &color)
 void GLWidget::updateTexture(QImage *image)
 {
 
-    static const int coords[6][4][3] = {
-        { { +1, -1, -1 }, { -1, -1, -1 }, { -1, +1, -1 }, { +1, +1, -1 } },
 
-    };
 
-    textures[0] = bindTexture
-            (*image, GL_TEXTURE_2D);
+    deleteTexture(textures[0]);
+    textures[0] = bindTexture(*image, GL_TEXTURE_2D);
 
-     for (int j = 0; j < 4; ++j) {
-            texCoords.append
-                (QVector2D(j == 0 || j == 3, j == 0 || j == 1));
-            vertices.append
-                (QVector3D(1* coords[0][j][0], 1 * coords[0][j][1],
-                           1 * coords[0][j][2]));
-        }
+
+     updateGL();
 
 
 }
@@ -68,6 +60,7 @@ void GLWidget::updateTexture(QImage *image)
 void GLWidget::initializeGL()
 {
 
+    makeCoords();
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 #ifndef QT_OPENGL_ES_2
@@ -130,30 +123,9 @@ void GLWidget::paintGL()
         glTexCoordPointer(2, GL_FLOAT, 0, texCoords.constData());
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        glBindTexture(GL_TEXTURE_2D, textures[0]);
-
-//        glBegin(GL_QUADS);
-
-//        glTexCoord2f(0.0f, 0.0f);
-//        glVertex2i(0, 0);
-
-//        glTexCoord2f(1.0f, 0.0f);
-//        glVertex2i(512, 0);
-
-//        glTexCoord2f(1.0f, 1.0f);
-//        glVertex2i(512, 512);
-
-//        glTexCoord2f(0.0f, 1.0f);
-//        glVertex2i(0, 512);
-
-//        glEnd();
         glBindTexture(GL_TEXTURE_2D, textures[0]);
         glDrawArrays(GL_TRIANGLE_FAN,0, 4);
-        glBegin(GL_LINES);
-            glVertex2f(.25,0.25);
-            glVertex2f(.75,.75);
-        glEnd();
+
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -199,24 +171,21 @@ void GLWidget::mouseReleaseEvent(QMouseEvent * /* event */)
     emit clicked();
 }
 
-void GLWidget::makeObject()
+void GLWidget::makeCoords()
 {
+
     static const int coords[6][4][3] = {
         { { +1, -1, -1 }, { -1, -1, -1 }, { -1, +1, -1 }, { +1, +1, -1 } },
 
     };
-
-    textures[0] = bindTexture
-            (QPixmap("/home/mahesh/images/side1.png"), GL_TEXTURE_2D);
-
-     for (int j = 0; j < 4; ++j) {
-            texCoords.append
-                (QVector2D(j == 0 || j == 3, j == 0 || j == 1));
-            vertices.append
-                (QVector3D(0.5* coords[0][j][0], 0.5 * coords[0][j][1],
-                           0.5 * coords[0][j][2]));
-        }
-
+    for (int j = 0; j < 4; ++j) {
+           texCoords.append
+               (QVector2D(j == 0 || j == 3, j == 0 || j == 1));
+           vertices.append
+               (QVector3D(1* coords[0][j][0], 1 * coords[0][j][1],
+                          1 * coords[0][j][2]));
+       }
 }
+
 
 

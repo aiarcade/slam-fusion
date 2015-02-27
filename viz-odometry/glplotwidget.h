@@ -23,6 +23,7 @@
      void setClearColor(const QColor &color);
      void updatePlot(Matrix *);
 
+     void makeObject();
  signals:
      void clicked();
 
@@ -35,7 +36,6 @@
      void mouseReleaseEvent(QMouseEvent *event);
 
  private:
-     void makeObject();
      int leftImageWidth;
      int leftImageHeight;
 
@@ -44,7 +44,7 @@
      int xRot;
      int yRot;
      int zRot;
-     GLuint textures[6];
+     GLuint textures[1];
      QVector<QVector3D> vertices;
      QVector<QVector2D> texCoords;
      Matrix prevPos;

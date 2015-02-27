@@ -27,7 +27,7 @@ VizWindow::VizWindow(QWidget *parent) :
         QwtPlotLayout *layout=plot->plotLayout();
         layout->setAlignCanvasToScales(true);
 
-        data_set_path="/home/mahesh/dev/vslam/libviso2/2010_03_09_drive_0019";
+        data_set_path="/home/mahesh/dev/vslam/libviso2/2009_09_08_drive_0010";
         std::string gt_file=data_set_path+"/insdata.txt";
         std::string delimters=" ";
         gtReader.readFile(gt_file,delimters,0);
@@ -45,7 +45,7 @@ VizWindow::VizWindow(QWidget *parent) :
         ui->plotLayout->addWidget(plot);
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(rotateOneStep()));
-        timer->start(10);
+        timer->start(0);
 
         setWindowTitle(tr("VSLAM"));
 
@@ -65,12 +65,12 @@ void VizWindow::setCurrentGlWidget()
 
 void VizWindow::rotateOneStep()
 {
-   // leftImage=odEngine->getLeftImage();
+   leftImage=odEngine->getLeftImage();
     pos=odEngine->getPosition();
-    //camglWidget->updateTexture(leftImage);
-    plotglWidget->updatePlot(pos);
-   plotglWidget->updateGL();
-  // camglWidget->updateGL();
+    camglWidget->updateTexture(leftImage);
+   // plotglWidget->updatePlot(pos);
+  // plotglWidget->updateGL();
+  //camglWidget->updateGL();
    positionPlot(pos);
 
 

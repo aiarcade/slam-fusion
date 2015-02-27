@@ -37,7 +37,7 @@ void Odometry::findOdometry()
      pose = Matrix::eye(4);
 
       // loop through all frames i=0:372
-      for (int32_t i=0; i<373; i++) {
+      for (int32_t i=0; i<1424; i++) {
 
         // input file names
         char base_name[256]; sprintf(base_name,"%06d.png",i);

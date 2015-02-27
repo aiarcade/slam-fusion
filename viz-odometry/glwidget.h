@@ -34,7 +34,8 @@
      void mouseReleaseEvent(QMouseEvent *event);
 
  private:
-     void makeObject();
+     void makeCoords();
+
      int leftImageWidth;
      int leftImageHeight;
 
