@@ -11,6 +11,7 @@ extern "C" {
     #include "vl/generic.h"
     #include "vl/slic.h"
     #include <vl/liop.h>
+    #include <vl/covdet.h>
 }
 
 
@@ -28,6 +29,7 @@ private:
     VlLiopDesc * liop;
     vl_size dimension;
     float * features;
+
 
 signals:
     

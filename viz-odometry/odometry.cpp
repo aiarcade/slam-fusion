@@ -4,7 +4,7 @@
 Odometry::Odometry(QObject *parent) :
     QObject(parent)
 {
-    pWriter.openFile("/home/mahesh/out/predicted.csv"," ",1);
+    pWriter.openFile("/home/mahesh/out/predicted_kitti_01.csv"," ",1);
     std::vector<string> pHead;
    // pHead.push_back("x");
    // pHead.push_back("y");
@@ -37,12 +37,14 @@ void Odometry::findOdometry()
      pose = Matrix::eye(4);
 
       // loop through all frames i=0:372
-      for (int32_t i=0; i<1424; i++) {
+      for (int32_t i=1; i<1100; i++) {
 
         // input file names
         char base_name[256]; sprintf(base_name,"%06d.png",i);
-        std::string left_img_file_name  = dir + "/I1_" + base_name;
-        std::string right_img_file_name = dir + "/I2_" + base_name;
+        //std::string left_img_file_name  = dir + "/I1_" + base_name;
+        //std::string right_img_file_name = dir + "/I2_" + base_name;
+        std::string left_img_file_name  = dir + "/image_0/" + base_name;
+        std::string right_img_file_name = dir + "/image_1/" + base_name;
 
         // catch image read/write errors here
         try {

@@ -21,16 +21,20 @@ VizWindow::VizWindow(QWidget *parent) :
         plot->enableAxis(QwtPlot::yLeft, true);
         plot->setAxisScale( QwtPlot::xBottom, -200.0, 200.0 );
         plot->setAxisScale( QwtPlot::yLeft, -200.0, 200.0 );
+        plot->setAxisAutoScale( QwtPlot::yLeft );
+        plot->setAxisAutoScale( QwtPlot::xBottom );
         plot->setTitle("MAP");
         plot->setStyleSheet("background-color:white;");
         plot->setFixedSize(900,280);
         QwtPlotLayout *layout=plot->plotLayout();
         layout->setAlignCanvasToScales(true);
 
-        data_set_path="/home/mahesh/dev/vslam/libviso2/2009_09_08_drive_0010";
-        std::string gt_file=data_set_path+"/insdata.txt";
-        std::string delimters=" ";
-        gtReader.readFile(gt_file,delimters,0);
+        //data_set_path="/home/mahesh/dev/vslam/libviso2/2009_09_08_drive_0010";
+        data_set_path="/data/dev/slam/kitti_01";
+
+        //std::string gt_file=data_set_path+"/insdata.txt";
+        //std::string delimters=" ";
+        //gtReader.readFile(gt_file,delimters,0);
         odEngine=new OdometryEngine();
         odEngine->setDataPath(data_set_path);
         odEngine->start();

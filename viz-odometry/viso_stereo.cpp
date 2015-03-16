@@ -79,13 +79,19 @@ vector<double> VisualOdometryStereo::estimateMotion (vector<Matcher::p_match> p_
   p_residual = new double[4*N];
 
   // project matches of previous image into 3d
+  cout<<"##########################"<<p_matched.size()<<endl;
   for (int32_t i=0; i<N; i++) {
+      std::cout<<"ulp:"<<p_matched[i].u1p<<" u2p:"<< p_matched[i].u2p<<endl;
+   // p_matched[i].u1p=N;
+    //p_matched[i].u2p=N;
+    // p_matched[i].v1p=N;
+
     double d = max(p_matched[i].u1p - p_matched[i].u2p,0.0001f);
     X[i] = (p_matched[i].u1p-param.calib.cu)*param.base/d;
     Y[i] = (p_matched[i].v1p-param.calib.cv)*param.base/d;
     Z[i] = param.calib.f*param.base/d;
   }
-
+ cout<<"##########################\n";
   // loop variables
   vector<double> tr_delta;
   vector<double> tr_delta_curr;
